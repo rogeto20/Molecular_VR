@@ -13,7 +13,7 @@ using UnityEngine;
 // ===============================
 public class MoleculeCreateScript : MonoBehaviour
 {
-
+    public static List<TextMesh> textMeshList = new List<TextMesh>();
     public GameObject CreateMolecule(string p_path)
     {
         GameObject parent = gameObject; // molecule.gameObject;
@@ -70,20 +70,18 @@ public class MoleculeCreateScript : MonoBehaviour
 
 
 
-           GameObject label = new GameObject();
-           label.transform.parent = atom.transform;
-           label.transform.localScale = atom.transform.localScale/16;
-           label.transform.position = atom.transform.position;
-            label.transform.Translate((float)-.2,(float).2,0);
-            label.transform.LookAt(Camera.main.transform);
+            //GameObject label = new GameObject();
+            //label.transform.parent = atom.transform;
+            //label.transform.localScale = atom.transform.localScale / 16;
+            //label.transform.position = atom.transform.position;
+            //label.transform.Translate((float)-.2, (float).2, 0);
 
+            //TextMesh t = label.AddComponent<TextMesh>();
+            //t.text = tokens[1];
+            //t.fontSize = 60;
+            //textMeshList.Add(t);
+            
 
-
-
-            TextMesh t = label.AddComponent<TextMesh>();
-            t.text = tokens[1];
-            t.fontSize = 60;
-          
 
             switch (tokens[0])
             {

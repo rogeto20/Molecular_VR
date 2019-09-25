@@ -19,7 +19,9 @@ public class RotateLabels : MonoBehaviour {
 
 	private Vector3 LastPosition = Vector3.zero;
 
-	void Awake ( ) {
+    public GameObject molecule;
+
+    void Awake ( ) {
 		Origin = transform.parent;
 		Renderer = transform.parent.GetComponent<MeshRenderer> ( );
 	}
@@ -35,13 +37,32 @@ public class RotateLabels : MonoBehaviour {
 	/// Make sure the rotation looks directly at the camera
 	/// </summary>
 	void Update ( ) {
-		if ( LastPosition == Camera.transform.position ) {
+        
+        if ( LastPosition == Camera.transform.position ) {
 			return;
 		}
-	
-		float distance = Vector3.Distance ( Origin.position, Camera.transform.position ); 
-		transform.position = Vector3.Lerp ( Origin.position, Camera.transform.position, Mathf.InverseLerp ( 0.0f, distance, Radius + 0.75f ) );
+
+        //molecule = GameObject.FindGameObjectWithTag("Mol");
+       // float size = molecule.transform.position.x;
+        Radius = Renderer.bounds.extents.magnitude;
+        //Debug.Log(size);
+
+
+        float distance = Vector3.Distance ( Origin.position, Camera.transform.position ); 
+		transform.position = Vector3.Lerp ( Origin.position, Camera.transform.position, Mathf.InverseLerp ( 0.0f, distance, Radius) );
 		transform.rotation = Quaternion.LookRotation ( Camera.transform.forward );
 		LastPosition = Camera.transform.position;
-	}
+
+
+
+        //foreach (TextMesh t in MoleculeCreateScript.textMeshList)
+        //{
+
+        //    //t.transform.LookAt(Camera.main.transform);
+        //    transform.rotation = Quaternion.LookRotation(Camera.transform.forward);
+        //    //Debug.Log(t.text);
+        //}
+
+
+    }
 }
