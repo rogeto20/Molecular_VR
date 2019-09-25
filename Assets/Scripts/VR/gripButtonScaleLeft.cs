@@ -4,20 +4,21 @@ using UnityEngine;
 
 // ===============================
 // AUTHOR: Joe Pernick
-// DATE: 24 September, 2018
-// PURPOSE: VRScaling on the left controller that allows the molecules to be scaled down
+// DATE: 24 September, 2018  
+// UPDATED: 31 October, 2018
+// PURPOSE: VRScaling on the right controller that allows the molecules to be scaled up 
 // ===============================
 
 public class gripButtonScaleLeft : MonoBehaviour
 {
 
-    //creates an instance of a tracked object
+
+
+    //create an instance of a tracked object
     public SteamVR_TrackedObject trackedobj;
 
-   
 
-
-    //tracks the movement of the left controller
+    //tracks the movement of the right controller
     private SteamVR_Controller.Device controller
     {
         get
@@ -26,10 +27,10 @@ public class gripButtonScaleLeft : MonoBehaviour
         }
     }
 
-    //creates a game object of the molecule so all the atoms scale together
+    //creates a game object of the molecule so all the atoms can scale together
     public GameObject molecule;
 
-    //boolean to see if the grip button is pushed on this controller
+    //boolean to see if the grip button was pushed on this controller
     public bool gripButtonPushed = false;
 
 
@@ -50,18 +51,21 @@ public class gripButtonScaleLeft : MonoBehaviour
 
     void Update()
     {
-        //Test to see if the button is pressed down on the left controller
+        //Test to see if the grip button is pressed down on the left controller
+        //10/31/2018 Makes it so the molecule cannot scale smaller than 10f and no larger than 100f
+        
         if (controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
         {
-
-            //IF the left grip button is pressed scale the molecule down by .5f
-            molecule.transform.localScale += new Vector3(-.05f, -.05f, -.05f);
-
-            
-            gripButtonPushed = true;
-            //Debug.Log(gripButtonPushed);
+            if (molecule.transform.localScale.x > 0.25f)
+            {
+                //IF the right grip button is pressed scale the molecule up by half of its current x, y and z positions 
+                molecule.transform.localScale += new Vector3(-0.2f, -0.2f, -0.2f);
+                gripButtonPushed = true;
+                //Debug.Log(gripButtonPushed);
+            }
         }
         
+
 
     }
 }

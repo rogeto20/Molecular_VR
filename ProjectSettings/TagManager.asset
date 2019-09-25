@@ -7,6 +7,8 @@ TagManager:
   - Mol
   - Hydrogen
   - Carbon
+  - Controller
+  - Camera
   layers:
   - Default
   - TransparentFX

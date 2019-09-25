@@ -111,6 +111,7 @@ public class VRBezierDrive : MonoBehaviour {
 	/// </summary>
 	private void HandHoverUpdate ( ) {
 		if ( HandController == null ) {
+            Debug.Log("Controller Not Found");
 			return;
 		}
 
