@@ -5,7 +5,7 @@ using System.Collections;
 // AUTHOR: Craig Milby
 // EDITED BY: Michelle Mismas and Joe Pernick
 // DATE: 25 October, 2017
-// PURPOSE: This hamdles the menu for selecting molecules in the VR world. It loads
+// PURPOSE: This handles the menu for selecting molecules in the VR world. It loads
 //			new molecules as well as updating them to the correct height and rotation
 //			when loaded. Includes functionality for creating a mirror of the molecule
 //          and resets the inner rotation of the Ethane molecule.
@@ -24,6 +24,9 @@ public class VRUIController : MonoBehaviour {
     private GameObject ethaneCopy;
 	private LabelToggler LabelToggler;
 
+	//Dominic added this
+	public GameObject molecule;
+
 	public GameObject MoleculeHolder;
 
 	public float MinHeight = 1.0f;
@@ -34,6 +37,7 @@ public class VRUIController : MonoBehaviour {
 
     public VRMolHeightHandler HeightHandler;
     public VRMolRotationHandler RotHandler;
+
         
 
     void Awake ( ) {
@@ -42,6 +46,7 @@ public class VRUIController : MonoBehaviour {
 
 	void Start ( ) {
 		LoadMolecule ( "Methane" );
+		 molecule = GameObject.FindGameObjectWithTag("Mol"); //and this
     }
 
 	public void HandleMoleculeSelectionClick ( string p_molecule ) {
@@ -138,6 +143,7 @@ public class VRUIController : MonoBehaviour {
         Debug.Log("Reset Orientation Called");
         HeightHandler.SetDriveVale(0.0f);
         RotHandler.SetDriveVale(0.0f);
+		 molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
 
         CurrentMolecule.transform.rotation = Quaternion.identity;
 
