@@ -1665,8 +1665,7 @@ Prefab:
   m_IsPrefabAsset: 0
 --- !u!4 &547107433 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 02884ff7cf8c243e1929aa0eb82c84f6,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 547107432}
 --- !u!1 &582206020
 GameObject:
@@ -3691,8 +3690,7 @@ Prefab:
   m_IsPrefabAsset: 0
 --- !u!4 &1396702280 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 02884ff7cf8c243e1929aa0eb82c84f6,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 1396702279}
 --- !u!1 &1417810328
 GameObject:
@@ -3716,7 +3714,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1417810328}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.025999993, z: 0}
+  m_LocalPosition: {x: 0.05, y: 0.32599998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1054811331}
@@ -4116,8 +4114,7 @@ Prefab:
   m_IsPrefabAsset: 0
 --- !u!4 &1519999299 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 02884ff7cf8c243e1929aa0eb82c84f6,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 1519999298}
 --- !u!1 &1532894402
 GameObject:
@@ -4464,8 +4461,7 @@ Prefab:
   m_IsPrefabAsset: 0
 --- !u!4 &1720364287 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 02884ff7cf8c243e1929aa0eb82c84f6,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 1720364286}
 --- !u!1 &1844158121
 GameObject:
@@ -4954,7 +4950,7 @@ TextMesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2017914421}
-  m_Text: Toggle Labels
+  m_Text: Switch Molecules
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
