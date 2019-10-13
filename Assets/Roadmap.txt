@@ -1,0 +1,62 @@
+﻿Folders
+=======
+Scripts:
+Scripts is the bulk of the code and where most of the functionality for the application is.
+All scripts have a header that gives a brief overview of what they do.
+
+Editor:
+Editor is used in debugging and building the application. This is utilities that help us develop the 
+application more quickly and efficiently. This code will not be present in the final build. 
+
+SteamVR and TextMeshPro:
+This contains code that we didnt write; it is a Unity package so do not look at this.
+
+Scripts
+=======
+Folders
+------
+All:
+This folder contains code the is used in both the VR application and the Mobile application.
+- Bezier and Bezier Curve: Used for cyclohexane molecule manipulation
+- BondAngleManipulator: Utility class used for molecule imports
+- CarbonMappingRotation: Used for moving cyclohexane molecule
+- CaronGroup: Used to keep linear mappings of carbons in sync
+- LabelToggler: Toggles labels
+- MathUtil: Math functions
+- MoleculeCreateScript: Wrapper for MoleculeCreateInspector
+- MultilineInputField: Makes input fields multiline
+- RotateAround: Rotate a point around another arbitrary point
+- RotateLabels: Keeps labels facing towards the camera
+- SceneManager: Passes parameters between scenes 
+
+Mobile:
+This folder contains code that is used in the Mobile application only.
+- DeviceRotation: Phone gyroscope functions
+- MenuScript: Handles menu buttons presses
+- MenuSlide: Handles slid-out menu functionality
+- ViewerLoadManager: Handles mobile main menu loading
+- ViewSceneUIManager: Handles all UI in mobile scene
+- CameraController: Handles rotation of camera in mobile scene
+
+VR:
+This folder contains code that is used in the VR application only.
+- Interactable: Placed on controllers, allows interactions in world
+- VRBezierDrive: Map a position along a bezier curve between 0 and 1
+- VRButton: A button in the VR world
+- VRHapticPulse: A short pulse in the controller
+- VRHapticRack: A "ladder" of haptic pulses, used on linear drives
+- VRHoverable: Allows contoller hovering over objects
+- VRLauncherLaunchButton: WIP - Will load scene with molecules
+- VRLauncherLoadMoleculeButton: Handles molecue loads on main menu
+- VRLinearDrive: Maps a position between two points between 0 and 1
+- VRLinearMapping: A float containing a value between 0 and 1
+- VRMenuController: Handle interactors on left-hand menu
+- VRMolHeightHandles: Update molcule height based on menu
+- VRMolRotationHandler: Update molecule rotation based on meu
+- VRTeleport: Handles teleportation around the world
+- VRUIController: Handles UI interactors in VR world
+
+Editor
+======
+Editor scripts are "attached" to scripts with a similar name. These provide more Unity inspector 
+functionality.
