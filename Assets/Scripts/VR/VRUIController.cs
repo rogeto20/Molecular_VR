@@ -23,6 +23,10 @@ public class VRUIController : MonoBehaviour {
     private GameObject copy;
     private GameObject ethaneCopy;
 	private LabelToggler LabelToggler;
+    
+    ////////////////Dom added this
+    private GameObject [] moleculeList = new GameObject[2];
+    //////////////////////////////////////////////////////
 
 	//Dominic added this
 	public GameObject molecule;
@@ -70,6 +74,7 @@ public class VRUIController : MonoBehaviour {
 				CurrentMolecule = mol.gameObject;
 				SetMoleculeHeight ( LastHeight );
 				SetMoleculeRotation ( LastRotation );
+                moleculeList[0] = mol.gameObject;
 
                 LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
 
@@ -123,6 +128,7 @@ public class VRUIController : MonoBehaviour {
             copy = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x + 2.5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
             new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 1)) as GameObject;
         }
+        moleculeList[1] = copy;
 
     }
 
@@ -192,6 +198,16 @@ public class VRUIController : MonoBehaviour {
 	public void ToggleLabels ( ) {
 		LabelToggler.Toggle ( );
 	}
+
+    public void switchMolecule(){
+        if(CurrentMolecule == moleculeList[0]){
+            CurrentMolecule = moleculeList[1];
+        } else if(CurrentMolecule == moleculeList[1]){
+            CurrentMolecule = moleculeList[0];
+        }
+            
+
+    }
 
     
 
