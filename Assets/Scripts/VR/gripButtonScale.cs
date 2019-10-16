@@ -39,10 +39,10 @@ public class gripButtonScale : MonoBehaviour
 
 
         //if the molecule cannot be retrieved by setting it in the Unity Editor, look for it.
-        if (molecule == null)
-        {
-            molecule = GameObject.FindGameObjectWithTag("Mol");
-        }
+        //if (molecule == null)
+        //{
+        //    molecule = GameObject.FindGameObjectWithTag("Mol");
+        //}
 
         trackedobj = GetComponent<SteamVR_TrackedObject>();
         // Debug.Log(trackedobj.index);

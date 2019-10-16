@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 // ===============================
 // AUTHOR: Craig Milby
@@ -18,11 +19,15 @@ public class VRUIController : MonoBehaviour {
 	public SteamVR_TrackedObject RightHand;
 	public Transform RightHandTransform;
 
-	private GameObject CurrentMolecule;
+	public static GameObject CurrentMolecule; //What is going on with this guy?
     private GameObject SecondMolecule;
     private GameObject copy;
     private GameObject ethaneCopy;
-	private LabelToggler LabelToggler;
+
+    private GameObject temp;
+     private GameObject temp2;
+
+    private LabelToggler LabelToggler;
     
     ////////////////Dom added this
     private GameObject [] moleculeList = new GameObject[2];
@@ -30,14 +35,22 @@ public class VRUIController : MonoBehaviour {
 
 	//Dominic added this
 	public GameObject molecule;
+    Boolean switcher = true;
 
 	public GameObject MoleculeHolder;
 
-	public float MinHeight = 1.0f;
+    private int count = 0;
+    private Boolean mainObj = true;
+
+
+    public float MinHeight = 1.0f;
 	public float MaxHeight = 5.0f;
 
 	private float LastHeight = 0.0f;
-	private float LastRotation = 0.0f;
+    private float LastRotation = 0.0f;
+
+    
+
 
     public VRMolHeightHandler HeightHandler;
     public VRMolRotationHandler RotHandler;
@@ -74,7 +87,11 @@ public class VRUIController : MonoBehaviour {
 				CurrentMolecule = mol.gameObject;
 				SetMoleculeHeight ( LastHeight );
 				SetMoleculeRotation ( LastRotation );
-                moleculeList[0] = mol.gameObject;
+
+
+                moleculeList[0] = mol.gameObject; //Rome added this
+
+               // moleculeList[0] = CurrentMolecule;
 
                 LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
 
@@ -126,7 +143,7 @@ public class VRUIController : MonoBehaviour {
         {
             //if there is not a copy of CurrentMolecule already, creates a copy of it
             copy = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x + 2.5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
-            new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 1)) as GameObject;
+            new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 1)) as GameObject; //rotation of the object
         }
         moleculeList[1] = copy;
 
@@ -142,17 +159,28 @@ public class VRUIController : MonoBehaviour {
     public void destroyMirror()
     {
             Destroy(copy);
-       
+
+        if (CurrentMolecule == moleculeList[0])
+        {
+            CurrentMolecule = moleculeList[1];
+        }
+
+        if (CurrentMolecule == moleculeList[1])
+        {
+            CurrentMolecule = moleculeList[0];
+        }
+
     }
 
     public void ResetOrientation ( ) {
         Debug.Log("Reset Orientation Called");
         HeightHandler.SetDriveVale(0.0f);
         RotHandler.SetDriveVale(0.0f);
-		 molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+		molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f); //Dominic - This is still not perfect, and I do not know why. The reseted molecule appears smaller than original. 
 
         CurrentMolecule.transform.rotation = Quaternion.identity;
 
+        //////
         //Resets the Ethane to its original internal rotation, specific to the EthaneWheelRotation script
         if (CurrentMolecule.transform.name == "Ethane")
         {
@@ -170,7 +198,10 @@ public class VRUIController : MonoBehaviour {
             CurrentMolecule.transform.name = "Ethane";
             ethaneCopy.SetActive(false);
         }
-        
+
+        //Dominic - I am considering making reset a hard reset, that is, it also destorys the mirror.
+        Destroy(copy);
+
     }
 
     
@@ -200,12 +231,83 @@ public class VRUIController : MonoBehaviour {
 	}
 
     public void switchMolecule(){
-        if(CurrentMolecule == moleculeList[0]){
-            CurrentMolecule = moleculeList[1];
-        } else if(CurrentMolecule == moleculeList[1]){
-            CurrentMolecule = moleculeList[0];
+
+        //if (CurrentMolecule == moleculeList[0])
+        //{
+        //    CurrentMolecule = moleculeList[1];
+        //}
+        //else if (CurrentMolecule == moleculeList[1])
+        //{
+        //    CurrentMolecule = moleculeList[0];
+        //    CurrentMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+        //}
+
+        //Console.WriteLine(count);
+
+        count++;
+
+        //if (count > 12)
+        //{
+        //    Destroy(copy);
+        //}
+
+        if (count == 8)
+        {
+            count = 0;
         }
+
+        //if (CurrentMolecule == moleculeList[0])
+        //{
+        //    CurrentMolecule = moleculeList[1];
+        //}
+
+        //if (CurrentMolecule == moleculeList[1])
+        //{
+        //    CurrentMolecule = moleculeList[0];
+        //}
+
+        if (count % 2 == 0)
+        {
+            CurrentMolecule = temp;
+            temp = moleculeList[1];
+            CurrentMolecule = moleculeList[0];
+            //CurrentMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x - 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+            if (switcher == true)
+            {
+                moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+                MoleculeHolder.transform;
+            }
+            else
+            {
+                 moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+            }
+            switcher = false;
+
+           
+        }
+
+        else if (count % 2 == 1)
+        {
+    
+            CurrentMolecule = temp2;
+            temp2 = moleculeList[0];
+            CurrentMolecule = moleculeList[1];
+            //CurrentMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x - 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+            if (switcher == true)
+            {
+                moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+            }
+            else
+            {
+                moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+            }
+            switcher = false;
+
             
+        }
+
+   
+
 
     }
 

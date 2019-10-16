@@ -28,6 +28,8 @@ public class gripButtonScaleLeft : MonoBehaviour
     }
 
     //creates a game object of the molecule so all the atoms can scale together
+    //public GameObject molecule = VRUIController.CurrentMolecule;
+
     public GameObject molecule;
 
     //boolean to see if the grip button was pushed on this controller
@@ -39,10 +41,10 @@ public class gripButtonScaleLeft : MonoBehaviour
 
 
         //if the molecule cannot be retrieved by setting it in the Unity Editor, look for it.
-        if (molecule == null)
-        {
-            molecule = GameObject.FindGameObjectWithTag("Mol");
-        }
+        //if (molecule == null)
+        //{
+        //    molecule = GameObject.FindGameObjectWithTag("Mol");
+        //}
 
         trackedobj = GetComponent<SteamVR_TrackedObject>();
         // Debug.Log(trackedobj.index);
