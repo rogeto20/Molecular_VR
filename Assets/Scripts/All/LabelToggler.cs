@@ -32,7 +32,7 @@ public class LabelToggler : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Toggle the labels dependong on the params
+	/// Toggle the labels depending on the params
 	/// </summary>
 	/// <param name="p_toggle">If set to <c>true</c> p toggle.</param>
 	public void Toggle ( bool p_toggle ) {
