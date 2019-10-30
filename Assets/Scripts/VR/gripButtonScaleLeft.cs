@@ -12,6 +12,7 @@ using UnityEngine;
 public class gripButtonScaleLeft : MonoBehaviour
 {
 
+    public GameObject currentMolecule;
 
 
     //create an instance of a tracked object
@@ -30,21 +31,26 @@ public class gripButtonScaleLeft : MonoBehaviour
     //creates a game object of the molecule so all the atoms can scale together
     //public GameObject molecule = VRUIController.CurrentMolecule;
 
-    public GameObject molecule;
+  
 
     //boolean to see if the grip button was pushed on this controller
     public bool gripButtonPushed = false;
+    int count = 0;
 
-
+    public GameObject molecule = VRUIController.CurrentMolecule;
     void Start()
     {
+        molecule = VRUIController.CurrentMolecule;
+
+
+        //if(molecule != null)
+        //{
+        //    count++;   
+        //}
 
 
         //if the molecule cannot be retrieved by setting it in the Unity Editor, look for it.
-        //if (molecule == null)
-        //{
-        //    molecule = GameObject.FindGameObjectWithTag("Mol");
-        //}
+    
 
         trackedobj = GetComponent<SteamVR_TrackedObject>();
         // Debug.Log(trackedobj.index);
@@ -53,15 +59,22 @@ public class gripButtonScaleLeft : MonoBehaviour
 
     void Update()
     {
+        //molecule = VRUIController.CurrentMolecule;
+        
+
+        // molecule = null;
         //Test to see if the grip button is pressed down on the left controller
         //10/31/2018 Makes it so the molecule cannot scale smaller than 10f and no larger than 100f
-        
+
         if (controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
         {
+            molecule = VRUIController.CurrentMolecule;
+            //VRUIController.CurrentMolecule
             if (molecule.transform.localScale.x > 0.25f)
             {
+
                 //IF the right grip button is pressed scale the molecule up by half of its current x, y and z positions 
-                molecule.transform.localScale += new Vector3(-0.2f, -0.2f, -0.2f);
+                molecule.transform.localScale += new Vector3(-0.02f, -0.02f, -0.02f);
                 gripButtonPushed = true;
                 //Debug.Log(gripButtonPushed);
             }

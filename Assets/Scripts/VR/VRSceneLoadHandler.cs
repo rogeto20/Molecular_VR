@@ -29,7 +29,8 @@ public class VRSceneLoadHandler : MonoBehaviour {
 				molecule = Resources.Load ( "Ethane" ) as GameObject;
 				molecule = Instantiate ( molecule, MoleculeHolder.transform );
 				molecule.name = mol.Value;
-			} else if ( mol.Value == "Cyclohexane" ) {
+			}
+            else if ( mol.Value == "Cyclohexane" ) {
 				molecule = Resources.Load ( "Cyclohexane" ) as GameObject;
 				molecule = Instantiate ( molecule, MoleculeHolder.transform );
 				molecule.name = mol.Value;
@@ -39,7 +40,9 @@ public class VRSceneLoadHandler : MonoBehaviour {
 					curve [ i ].TrackedObject = TrackedObject;
 					curve [ i ].TrackTransform = TrackedObject.transform;
 				}
-			} else {
+			}
+
+            else {
 				molecule = new GameObject ( );
 				molecule.AddComponent<MoleculeCreateScript > ( ).CreateMolecule ( mol.Value );
                 molecule.transform.parent = MoleculeHolder.transform;

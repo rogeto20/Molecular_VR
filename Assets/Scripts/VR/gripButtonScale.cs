@@ -12,7 +12,7 @@ using UnityEngine;
 public class gripButtonScale : MonoBehaviour
 {
 
-
+    public GameObject currentMolecule;
 
     //create an instance of a tracked object
     public SteamVR_TrackedObject trackedobj;
@@ -37,7 +37,7 @@ public class gripButtonScale : MonoBehaviour
     void Start()
     {
 
-
+        molecule = VRUIController.CurrentMolecule;
         //if the molecule cannot be retrieved by setting it in the Unity Editor, look for it.
         //if (molecule == null)
         //{
@@ -51,11 +51,13 @@ public class gripButtonScale : MonoBehaviour
 
     void Update()
     {
+
         //Test to see if the grip button is pressed down on the right controller
         //10/31/2018 Makes it so the molecule cannot scale smaller than 10f and no larger than 100f
-       
-       if (controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
+
+        if (controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
        {
+            molecule = VRUIController.CurrentMolecule;
             if (molecule.transform.localScale.x < 6.0f)
             {
                 //IF the right grip button is pressed scale the molecule up by half of its current x, y and z positions 

@@ -38,6 +38,7 @@ public class VRUIController : MonoBehaviour {
     Boolean switcher = true;
 
 	public GameObject MoleculeHolder;
+    public GameObject MoleculeHolder2;
 
     private int count = 0;
     private Boolean mainObj = true;
@@ -49,7 +50,9 @@ public class VRUIController : MonoBehaviour {
 	private float LastHeight = 0.0f;
     private float LastRotation = 0.0f;
 
-    
+    /// <summary>
+    /// Hey Dominic, do you rememeber that thing you wanted to add? If not, try.
+    /// </summary>
 
 
     public VRMolHeightHandler HeightHandler;
@@ -66,17 +69,19 @@ public class VRUIController : MonoBehaviour {
 		 molecule = GameObject.FindGameObjectWithTag("Mol"); //and this
     }
 
-	public void HandleMoleculeSelectionClick ( string p_molecule ) {
-		Destroy ( CurrentMolecule );
-		LoadMolecule ( p_molecule );
-	}
 
-	/// <summary>
-	/// Load molecule from the provided name
-	/// This is called when a button is pressed
-	/// </summary>
-	/// <param name="p_molecule">P molecule.</param>
-	public void LoadMolecule ( string p_molecule ) {
+    public void HandleMoleculeSelectionClick(string p_molecule)
+        {
+            Destroy(CurrentMolecule);
+            LoadMolecule(p_molecule);
+        }
+
+    /// <summary>
+    /// Load molecule from the provided name
+    /// This is called when a button is pressed
+    /// </summary>
+    /// <param name="p_molecule">P molecule.</param>
+    public void LoadMolecule ( string p_molecule ) {
        
 		foreach ( Transform mol in MoleculeHolder.transform ) {
 			mol.gameObject.SetActive ( false );
@@ -89,7 +94,7 @@ public class VRUIController : MonoBehaviour {
 				SetMoleculeRotation ( LastRotation );
 
 
-                moleculeList[0] = mol.gameObject; //Rome added this
+                moleculeList[0] = mol.gameObject; //Rome added this but will not be blamed if it does not work.
 
                // moleculeList[0] = CurrentMolecule;
 
@@ -275,11 +280,12 @@ public class VRUIController : MonoBehaviour {
             if (switcher == true)
             {
                 moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
-                MoleculeHolder.transform;
+              
             }
             else
             {
-                 moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+                moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+
             }
             switcher = false;
 
@@ -296,10 +302,12 @@ public class VRUIController : MonoBehaviour {
             if (switcher == true)
             {
                 moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+        
             }
             else
             {
                 moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+    
             }
             switcher = false;
 
@@ -314,8 +322,8 @@ public class VRUIController : MonoBehaviour {
     
 
 
-    public void ToggleLabels ( bool p_toggle ) {
-		LabelToggler.Toggle ( p_toggle );
-	}
+    //public void ToggleLabels ( bool p_toggle ) {
+	//	LabelToggler.Toggle ( p_toggle );
+	//}
 }
 
