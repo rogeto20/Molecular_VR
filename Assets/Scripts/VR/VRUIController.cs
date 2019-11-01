@@ -25,7 +25,7 @@ public class VRUIController : MonoBehaviour {
     private GameObject ethaneCopy;
 
     private GameObject temp;
-     private GameObject temp2;
+
 
     private LabelToggler LabelToggler;
     
@@ -38,7 +38,7 @@ public class VRUIController : MonoBehaviour {
     Boolean switcher = true;
 
 	public GameObject MoleculeHolder;
-    public GameObject MoleculeHolder2;
+    
 
     private int count = 0;
     private Boolean mainObj = true;
@@ -237,46 +237,19 @@ public class VRUIController : MonoBehaviour {
 
     public void switchMolecule(){
 
-        //if (CurrentMolecule == moleculeList[0])
-        //{
-        //    CurrentMolecule = moleculeList[1];
-        //}
-        //else if (CurrentMolecule == moleculeList[1])
-        //{
-        //    CurrentMolecule = moleculeList[0];
-        //    CurrentMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
-        //}
-
-        //Console.WriteLine(count);
-
         count++;
-
-        //if (count > 12)
-        //{
-        //    Destroy(copy);
-        //}
 
         if (count == 8)
         {
             count = 0;
         }
 
-        //if (CurrentMolecule == moleculeList[0])
-        //{
-        //    CurrentMolecule = moleculeList[1];
-        //}
-
-        //if (CurrentMolecule == moleculeList[1])
-        //{
-        //    CurrentMolecule = moleculeList[0];
-        //}
-
         if (count % 2 == 0)
         {
             CurrentMolecule = temp;
             temp = moleculeList[1];
             CurrentMolecule = moleculeList[0];
-            //CurrentMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x - 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+       
             if (switcher == true)
             {
                 moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
@@ -289,16 +262,13 @@ public class VRUIController : MonoBehaviour {
             }
             switcher = false;
 
-           
         }
-
         else if (count % 2 == 1)
         {
     
-            CurrentMolecule = temp2;
-            temp2 = moleculeList[0];
+            CurrentMolecule = temp;
+            temp = moleculeList[0];
             CurrentMolecule = moleculeList[1];
-            //CurrentMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x - 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
             if (switcher == true)
             {
                 moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
@@ -318,10 +288,6 @@ public class VRUIController : MonoBehaviour {
 
 
     }
-
-    
-
-
     //public void ToggleLabels ( bool p_toggle ) {
 	//	LabelToggler.Toggle ( p_toggle );
 	//}

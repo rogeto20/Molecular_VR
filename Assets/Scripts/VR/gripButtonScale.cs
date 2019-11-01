@@ -12,7 +12,6 @@ using UnityEngine;
 public class gripButtonScale : MonoBehaviour
 {
 
-    public GameObject currentMolecule;
 
     //create an instance of a tracked object
     public SteamVR_TrackedObject trackedobj;
@@ -37,7 +36,6 @@ public class gripButtonScale : MonoBehaviour
     void Start()
     {
 
-        molecule = VRUIController.CurrentMolecule;
         //if the molecule cannot be retrieved by setting it in the Unity Editor, look for it.
         //if (molecule == null)
         //{

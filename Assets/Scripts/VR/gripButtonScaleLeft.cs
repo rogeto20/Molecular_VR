@@ -12,7 +12,6 @@ using UnityEngine;
 public class gripButtonScaleLeft : MonoBehaviour
 {
 
-    public GameObject currentMolecule;
 
 
     //create an instance of a tracked object
@@ -40,8 +39,6 @@ public class gripButtonScaleLeft : MonoBehaviour
     public GameObject molecule = VRUIController.CurrentMolecule;
     void Start()
     {
-        molecule = VRUIController.CurrentMolecule;
-
 
         //if(molecule != null)
         //{
