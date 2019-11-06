@@ -36,6 +36,7 @@ public class VRUIController : MonoBehaviour {
 	//Dominic added this
 	public GameObject molecule;
     Boolean switcher = true;
+    Boolean initalSwitch = true;
 
 	public GameObject MoleculeHolder;
     
@@ -65,8 +66,8 @@ public class VRUIController : MonoBehaviour {
     }
 
 	void Start ( ) {
-		LoadMolecule ( "Methane" );
-		 molecule = GameObject.FindGameObjectWithTag("Mol"); //and this
+		LoadMolecule ( "Methane" ); 
+		molecule = GameObject.FindGameObjectWithTag("Mol"); //and this
     }
 
 
@@ -152,6 +153,7 @@ public class VRUIController : MonoBehaviour {
         }
         moleculeList[1] = copy;
 
+        //
     }
 
     /*public void createMirror ( )
@@ -163,7 +165,7 @@ public class VRUIController : MonoBehaviour {
      */
     public void destroyMirror()
     {
-            Destroy(copy);
+        Destroy(copy);
 
         if (CurrentMolecule == moleculeList[0])
         {
@@ -174,14 +176,13 @@ public class VRUIController : MonoBehaviour {
         {
             CurrentMolecule = moleculeList[0];
         }
-
     }
 
     public void ResetOrientation ( ) {
         Debug.Log("Reset Orientation Called");
         HeightHandler.SetDriveVale(0.0f);
         RotHandler.SetDriveVale(0.0f);
-		molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f); //Dominic - This is still not perfect, and I do not know why. The reseted molecule appears smaller than original. 
+		molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f); 
 
         CurrentMolecule.transform.rotation = Quaternion.identity;
 
@@ -232,46 +233,43 @@ public class VRUIController : MonoBehaviour {
 	}
 
 	public void ToggleLabels ( ) {
-		LabelToggler.Toggle ( );
+        LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
+        LabelToggler.Toggle ( );
 	}
 
     public void switchMolecule(){
 
-        count++;
+       
 
-        if (count == 8)
-        {
-            count = 0;
-        }
-
-        if (count % 2 == 0)
+        if (!switcher)
         {
             CurrentMolecule = temp;
             temp = moleculeList[1];
             CurrentMolecule = moleculeList[0];
        
-            if (switcher == true)
+            if (initalSwitch)
             {
-                moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
-              
+                moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x + 2.2f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+                switcher = true;
             }
             else
             {
                 moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
-
+                switcher = true;
             }
-            switcher = false;
+            initalSwitch = false;
+            
 
         }
-        else if (count % 2 == 1)
+        else if (switcher)
         {
     
             CurrentMolecule = temp;
             temp = moleculeList[0];
             CurrentMolecule = moleculeList[1];
-            if (switcher == true)
+            if (initalSwitch)
             {
-                moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x + 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+                moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x + 2.2f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
         
             }
             else
@@ -279,6 +277,7 @@ public class VRUIController : MonoBehaviour {
                 moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
     
             }
+            initalSwitch = false;
             switcher = false;
 
             

@@ -53,8 +53,8 @@ public class VRFreeRotation : MonoBehaviour {
         //Test to see if the button is pressed down
         if (controller.GetPress(SteamVR_Controller.ButtonMask.Trigger))
         {
-            molecule = VRUIController.CurrentMolecule;
-            //  molecule.transform.eulerAngles = new Vector3(controllerRot[0], controllerRot[1], controllerRot[2]);
+           // molecule = VRUIController.CurrentMolecule;
+            //molecule.transform.eulerAngles = new Vector3(controllerRot[0], controllerRot[1], controllerRot[2]); //This speedds it up
             molecule.transform.rotation = Quaternion.Slerp ( molecule.transform.rotation, controller.transform.rot, Time.deltaTime * 3.0f );
         }
         
