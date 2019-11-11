@@ -33,6 +33,8 @@ public class VRButton : MonoBehaviour {
 		if ( Renderer ) {
 			Renderer.material.color = NormalColor;
 		}
+
+        
 	}
 
 	/*
@@ -44,23 +46,26 @@ public class VRButton : MonoBehaviour {
 	/// Do this when the controller starts to hover
 	/// </summary>
 	public void ButtonHoverStart ( ) {
-		if ( Image ) {
-			Image.color = HighlightedColor;
-		}
+        if (Image)
+        {
+            Image.color = HighlightedColor;
+        }
 
-		if ( Renderer ) {
-			Renderer.material.color = HighlightedColor;
-		}
+        if (Renderer)
+        {
+            Renderer.material.color = HighlightedColor;
+        }
 
-		/*if ( Pulse ) {
+        /*if ( Pulse ) {
 			Pulse.Pulse ( );
 		}*/
-	}
+    }
 
 	/// <summary>
 	/// Do this when the controller ends hovering
 	/// </summary>
 	public void ButtonHoverEnd ( ) {
+
 		if ( Image ) {
 			Image.color = NormalColor;
 		}
@@ -75,6 +80,16 @@ public class VRButton : MonoBehaviour {
 	/// and a trigger is pressed
 	/// </summary>
 	public void ButtonPressed ( ) {
+
+        //if (Image.GetComponent<Text>.Equals("Load2?"))
+        //{
+        //    Image.color = HighlightedColor;
+        //}
+
+
+   
+
+
 		ButtonClick.Invoke ( );
         // Controller.SendMessage ( "ButtonPressed" );
 
