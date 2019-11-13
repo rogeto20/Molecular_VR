@@ -221,45 +221,39 @@ public class VRUIController : MonoBehaviour {
 
     public void Load2()
     {
-      
+
+        initalSwitch = true;
+        switcher = true;
+
+
         if (loadTwoMolecules)
         {
             loadTwoMolecules = false;
-            Destroy(SecondMolecule);
-            if (CurrentMolecule == moleculeList[0])
-            {
-                CurrentMolecule = moleculeList[1];
-            }
-            if (CurrentMolecule == moleculeList[1])
-            {
-                CurrentMolecule = moleculeList[0];
-            }
+            destoySecondMolecule();
         }
         else
         {
+            destroyMirror();
             loadTwoMolecules = true;
         }
     }
 
-    /*public void createMirror ( )
+    public void destoySecondMolecule()
     {
-        // set molecule two to the first molecules position plus 10 to its x and y values
-        Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x + 5.0f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
-            new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 1));
-    }
-     */
-    public void destroyMirror()
-    {
-        Destroy(copy);
-
-        if (CurrentMolecule == moleculeList[0])
-        {
-            CurrentMolecule = moleculeList[1];
-        }
+        Destroy(SecondMolecule);
         if (CurrentMolecule == moleculeList[1])
         {
             CurrentMolecule = moleculeList[0];
         }
+    }
+
+    public void destroyMirror()
+    {
+        if (!loadTwoMolecules) {
+            Destroy(copy);
+            destoySecondMolecule();
+          }
+    
     }
 
     //Look at this
@@ -289,9 +283,8 @@ public class VRUIController : MonoBehaviour {
             CurrentMolecule.transform.name = "Ethane";
             ethaneCopy.SetActive(false);
         }
-
-        //Dominic - I am considering making reset a hard reset, that is, it also destorys the mirror.
         Destroy(copy);
+        destoySecondMolecule();
 
     }
 
