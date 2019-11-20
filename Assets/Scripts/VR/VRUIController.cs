@@ -72,12 +72,18 @@ public class VRUIController : MonoBehaviour {
   
     }
 
+    /// <summary>
+    /// Load’s default molecule.  Sets object ‘molecule’ to the Methane object.
+    /// </summary>
 	void Start ( ) {
 		LoadMolecule ( "Methane" ); 
 		molecule = GameObject.FindGameObjectWithTag("Mol"); //and this
     }
 
-
+    /// <summary>
+    /// Handles selection of a new molecule by removing the current molecule and spawning the selected molecule.
+    /// </summary>
+    /// <param name="p_molecule"> the name of the molecule being handled</param>
     public void HandleMoleculeSelectionClick(string p_molecule)
         {
             Destroy(CurrentMolecule);
@@ -86,9 +92,9 @@ public class VRUIController : MonoBehaviour {
 
     /// <summary>
     /// Load molecule from the provided name
-    /// This is called when a button is pressed
+    /// This is called when a molecule is selected
     /// </summary>
-    /// <param name="p_molecule">P molecule.</param>
+    /// <param name="p_molecule"> the name of the molecule being handled</param>
     public void LoadMolecule ( string p_molecule ) {
 
         if (!loadTwoMolecules)
@@ -152,6 +158,34 @@ public class VRUIController : MonoBehaviour {
 		SetMoleculeRotation ( LastRotation );*/
 	}
 
+    /// <summary>
+    /// Changes the initial switcher and switcher to true
+    ///Toggles the LoadTwoMolecules boolean between true and false
+    /// </summary>
+    public void Load2()
+    {
+
+        initalSwitch = true;
+        switcher = true;
+
+
+        if (loadTwoMolecules)
+        {
+            loadTwoMolecules = false;
+            destoySecondMolecule();
+        }
+        else
+        {
+            destroyMirror();
+            loadTwoMolecules = true;
+        }
+    }
+
+    /// <summary>
+    /// Loads a second molecule from the provided name. This is called when a molecule is selected.
+    /// the second molecule is offset by -2.5 on the x-axis
+    /// </summary>
+    /// <param name="p_molecule"> the name of the molecule being loaded.</param>
     public void LoadSecondMolecule(string p_molecule)
     {
         
@@ -198,12 +232,38 @@ public class VRUIController : MonoBehaviour {
     /// Update the height of the molecule for the initial load
     /// based of the old height
     /// </summary>
-    /// <param name="p_height">P height.</param>
+    /// <param name="p_height">amount change to molecule height</param>
     public void SetMoleculeHeight ( float p_height ) {
 		CurrentMolecule.transform.position = new Vector3 ( 0.0f, Mathf.Lerp ( MinHeight, MaxHeight, p_height ), 0.0f );
 		LastHeight = p_height;
 	}
 
+
+    /// <summary>
+    /// Upadate the rotation of the molecule for the inital load
+    /// based on the old rotation
+    /// </summary>
+    /// <param name="p_rotation">amount of rotation applied to the molecule</param>
+    public void SetMoleculeRotation(float p_rotation)
+    {
+        /* Vector3 rot = CurrentMolecule.transform.eulerAngles;
+
+         if (RotHandler != null)
+         {
+             RotHandler.SetDriveVale(Mathf.InverseLerp(0.0f, 360.0f, rot.y));
+         }
+
+         CurrentMolecule.transform.eulerAngles = new Vector3 ( rot.x, Mathf.Lerp ( 0.0f, 360.0f, p_rotation ), rot.y );
+         */
+
+        CurrentMolecule.transform.rotation = Quaternion.AngleAxis(Mathf.Lerp(0.0f, 360.0f, p_rotation), Vector3.up);
+
+        LastRotation = p_rotation;
+    }
+
+    /// <summary>
+    /// Creates a mirrored copy of the current molecule offset by 2.5 on the x-axis.
+    /// </summary>
     public void createMirror()
     {
         if (!loadTwoMolecules)
@@ -219,25 +279,10 @@ public class VRUIController : MonoBehaviour {
 
     }
 
-    public void Load2()
-    {
 
-        initalSwitch = true;
-        switcher = true;
-
-
-        if (loadTwoMolecules)
-        {
-            loadTwoMolecules = false;
-            destoySecondMolecule();
-        }
-        else
-        {
-            destroyMirror();
-            loadTwoMolecules = true;
-        }
-    }
-
+    /// <summary>
+    /// Removes the second loaded molecule from the game space, if it exists.
+    /// </summary>
     public void destoySecondMolecule()
     {
         Destroy(SecondMolecule);
@@ -247,6 +292,9 @@ public class VRUIController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Removes a molecule copy from the game space, if it exists.
+    /// </summary>
     public void destroyMirror()
     {
         if (!loadTwoMolecules) {
@@ -256,7 +304,9 @@ public class VRUIController : MonoBehaviour {
     
     }
 
-    //Look at this
+    /// <summary>
+    /// Resets the orientation of the molecule to its original settings. Affects EthaneWheelRotaion.cs.
+    /// </summary>
     public void ResetOrientation ( ) {
         Debug.Log("Reset Orientation Called");
         HeightHandler.SetDriveVale(0.0f);
@@ -288,33 +338,18 @@ public class VRUIController : MonoBehaviour {
 
     }
 
-    
-	/// <summary>
-	/// Upadate the rotation of the molecule for the inital load
-	/// based on the old rotation
-	/// </summary>
-	/// <param name="p_rotation">P rotation.</param>
-	public void SetMoleculeRotation ( float p_rotation ) {
-        /* Vector3 rot = CurrentMolecule.transform.eulerAngles;
 
-         if (RotHandler != null)
-         {
-             RotHandler.SetDriveVale(Mathf.InverseLerp(0.0f, 360.0f, rot.y));
-         }
-
-         CurrentMolecule.transform.eulerAngles = new Vector3 ( rot.x, Mathf.Lerp ( 0.0f, 360.0f, p_rotation ), rot.y );
-         */
-
-        CurrentMolecule.transform.rotation = Quaternion.AngleAxis(Mathf.Lerp ( 0.0f, 360.0f, p_rotation), Vector3.up);
-
-        LastRotation = p_rotation;
-	}
-
-	public void ToggleLabels ( ) {
+    /// <summary>
+    /// Use the LabelToggler to toggle the labels on the current molecule
+    /// </summary>
+    public void ToggleLabels ( ) {
         LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
         LabelToggler.Toggle ( );
 	}
 
+    /// <summary>
+    /// Switches which molecule on the screen is currently being manipulated.  
+    /// </summary>
     public void switchMolecule(){
 
         if (loadTwoMolecules)
