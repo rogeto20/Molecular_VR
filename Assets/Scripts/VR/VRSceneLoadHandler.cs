@@ -35,12 +35,13 @@ public class VRSceneLoadHandler : MonoBehaviour {
 				molecule = Instantiate ( molecule, MoleculeHolder.transform );
 				molecule.name = mol.Value;
 
-				VRBezierDrive[] curve = molecule.GetComponentsInChildren<VRBezierDrive> ( );
-				for ( int i = 0; i < curve.Length; i++ ) {
-					curve [ i ].TrackedObject = TrackedObject;
-					curve [ i ].TrackTransform = TrackedObject.transform;
-				}
-			}
+                VRBezierDrive[] curve = molecule.GetComponentsInChildren<VRBezierDrive>();
+                for (int i = 0; i < curve.Length; i++)
+                {
+                    curve[i].TrackedObject = TrackedObject;
+                    curve[i].TrackTransform = TrackedObject.transform;
+                }
+            }
 
             else {
 				molecule = new GameObject ( );
