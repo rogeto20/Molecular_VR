@@ -34,11 +34,14 @@ public class CarbonMappingRotation : MonoBehaviour {
 		XAngle = euler.x;
 		YAngle = euler.y;
 
-		if ( Inverse ) {
-			transform.rotation = Quaternion.Euler ( XAngle, YAngle, Mathf.Lerp ( StartAngle + MoveAngle, StartAngle, Mapping.value ) );
-		} else {
-			transform.rotation = Quaternion.Euler ( XAngle, YAngle, Mathf.Lerp ( StartAngle, StartAngle - MoveAngle, Mapping.value ) );
-		}
-	}
+        if (Inverse)
+        {
+            transform.rotation = Quaternion.Euler(XAngle, YAngle, Mathf.Lerp(StartAngle + MoveAngle, StartAngle, Mapping.value));
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(XAngle, YAngle, Mathf.Lerp(StartAngle, StartAngle - MoveAngle, Mapping.value));
+        }
+    }
 }
 
