@@ -9,6 +9,7 @@ TagManager:
   - Carbon
   - Controller
   - Camera
+  - Load2
   layers:
   - Default
   - TransparentFX

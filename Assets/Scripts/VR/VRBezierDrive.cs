@@ -133,7 +133,7 @@ public class VRBezierDrive : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Contrinue to move the object over time depending on 
+	/// Continue to move the object over time depending on 
 	/// if that's what we want
 	/// </summary>
 	private void CalculateMappingChangeRate ( ) {

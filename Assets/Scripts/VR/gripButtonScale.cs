@@ -59,7 +59,7 @@ public class gripButtonScale : MonoBehaviour
             if (molecule.transform.localScale.x < 6.0f)
             {
                 //IF the right grip button is pressed scale the molecule up by half of its current x, y and z positions 
-                molecule.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+                molecule.transform.localScale += new Vector3(0.02f, 0.02f, 0.02f);
                 gripButtonPushed = true;
                 //Debug.Log(gripButtonPushed);
             }

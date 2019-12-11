@@ -69,6 +69,10 @@ public class VRMenuController : MonoBehaviour {
 		Container.SetActive ( p_show );
 	}
 
+    //public static void ChangeLoadTwo()
+    //{
+    //    Container.GetComponentInChildren
+    //}
 
 }
 

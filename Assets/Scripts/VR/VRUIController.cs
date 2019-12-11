@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 // ===============================
 // AUTHOR: Craig Milby
@@ -11,165 +12,193 @@ using System;
 //			when loaded. Includes functionality for creating a mirror of the molecule
 //          and resets the inner rotation of the Ethane molecule.
 // ===============================
-public class VRUIController : MonoBehaviour {
-
-	public SteamVR_TrackedObject LeftHand;
-	public Transform LeftHandTransform;
-
-	public SteamVR_TrackedObject RightHand;
-	public Transform RightHandTransform;
-
-	public static GameObject CurrentMolecule; 
-    private GameObject SecondMolecule; //The one that is not a copy hehe
-    private GameObject copy;
-    private GameObject ethaneCopy;
-
-    private GameObject temp;
 
 
-    private LabelToggler LabelToggler;
-    
-    ////////////////Dom added this
-    private GameObject [] moleculeList = new GameObject[2];
-    //////////////////////////////////////////////////////
+/// <summary>
+/// Rename this class
+/// </summary>
 
-	//Dominic added this
-	public GameObject molecule;
-    Boolean switcher = true;
-    Boolean initalSwitch = true;
-    Boolean loadTwoMolecules = false;
 
-	public GameObject MoleculeHolder;
+public class VRUIController : MonoBehaviour
+{
 
-    //
+    //WARNING:next nine commented out variables are old stuff, might not need.
+    //public SteamVR_TrackedObject LeftHand;
+    //public Transform LeftHandTransform;
+    //public SteamVR_TrackedObject RightHand;
+    //public Transform RightHandTransform;
     //private UnityEngine.UI.Image Image;
     //public Color NormalColor;
     //public Color PressedColor;
     //public MeshRenderer Renderer;
-    //
+    //private Boolean mainObj = true;
 
-    private int count = 0;
-    private Boolean mainObj = true;
+    //WARNING: Old Method
+    //public void ToggleLabels ( bool p_toggle ) {
+    //	LabelToggler.Toggle ( p_toggle );
+    //}
 
+
+
+    //These can change to the variable
+    public static GameObject CurrentMolecule;
+    private GameObject SecondMolecule; //The one that is not a copy hehe
+    //private GameObject CyclohexaneCopy;
+    private GameObject ethaneCopy;
+    private GameObject temp;
+
+    public float offset = 3f;
+
+    private LabelToggler LabelToggler;
+
+    private GameObject[] moleculeList = new GameObject[2];
+
+    public GameObject molecule;
+    Boolean switcher = true;
+    Boolean initalSwitch = true;
+    public static Boolean loadTwoMolecules = false;
+
+    public GameObject MoleculeHolder;
 
     public float MinHeight = 1.0f;
-	public float MaxHeight = 5.0f;
+    public float MaxHeight = 5.0f;
 
-	private float LastHeight = 0.0f;
+    private float LastHeight = 0.0f;
     private float LastRotation = 0.0f;
-
-    /// <summary>
-    /// Hey Dominic, do you rememeber that thing you wanted to add? If not, try.
-    /// </summary>
-
 
     public VRMolHeightHandler HeightHandler;
     public VRMolRotationHandler RotHandler;
 
-        
+    void Awake()
+    {
 
-    void Awake ( ) {
-  
     }
 
-	void Start ( ) {
-		LoadMolecule ( "Methane" ); 
-		molecule = GameObject.FindGameObjectWithTag("Mol"); //and this
+    void Start()
+    {
+        LoadMolecule("Methane");
+        molecule = GameObject.FindGameObjectWithTag("Mol");
     }
 
 
     public void HandleMoleculeSelectionClick(string p_molecule)
-        {
-            Destroy(CurrentMolecule);
-            LoadMolecule(p_molecule);
-        }
+    {
+        Destroy(CurrentMolecule);
+        LoadMolecule(p_molecule);
+    }
 
     /// <summary>
     /// Load molecule from the provided name
     /// This is called when a button is pressed
     /// </summary>
     /// <param name="p_molecule">P molecule.</param>
-    public void LoadMolecule ( string p_molecule ) {
+    public void LoadMolecule(string p_molecule)
+    {
 
         if (!loadTwoMolecules)
         {
-            foreach (Transform mol in MoleculeHolder.transform)
+            LoadOneMolecule(p_molecule);
+        }
+        else if (loadTwoMolecules && !CurrentMolecule.name.Equals(p_molecule))
+        {
+            LoadSecondMolecule(p_molecule);
+          
+        }
+
+    }
+
+    private void LoadOneMolecule(string p_molecule)
+    {
+        //GameObject foundMol = GameObject.Find(p_molecule);
+        //foundMol.SetActive(true);
+
+        //CurrentMolecule = foundMol;
+        //SetMoleculeHeight(LastHeight);
+        //SetMoleculeRotation(LastRotation);
+
+
+        //moleculeList[0] = foundMol;
+
+        //LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
+        //if (foundMol.name == "Ethane")
+        //{
+        //    ethaneCopy = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
+        //        new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject;
+
+        //    //copy is inactive and not visible
+        //    ethaneCopy.SetActive(false);
+        //}
+        foreach (Transform mol in MoleculeHolder.transform)
+        {
+
+            mol.gameObject.SetActive(false);
+            //CurrentMolecule.gameObject.SetActive(false);
+
+            //James mentinoed this 
+            // mol.gameObject.SetActiveRecursively
+
+            if (mol.name == p_molecule)
             {
-                mol.gameObject.SetActive(false);
+                mol.gameObject.SetActive(true);
 
-                if (mol.name == p_molecule)
+                CurrentMolecule = mol.gameObject;
+                SetMoleculeHeight(LastHeight);
+                SetMoleculeRotation(LastRotation);
+
+
+                moleculeList[0] = mol.gameObject;
+
+                LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
+
+                //creating a copy of the Ethane molecule for resetting the EthaneWheelRotation movement
+                if (mol.name == "Ethane")
                 {
-                    mol.gameObject.SetActive(true);
+                    ethaneCopy = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
+                        new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject;
 
-                    CurrentMolecule = mol.gameObject;
-                    SetMoleculeHeight(LastHeight);
-                    SetMoleculeRotation(LastRotation);
-
-
-                    moleculeList[0] = mol.gameObject; //Rome added this but will not be blamed if it does not work.
-
-                    // moleculeList[0] = CurrentMolecule;
-
-                    LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
-
-                    //creating a copy of the Ethane molecule for resetting the EthaneWheelRotation movement
-                    if (mol.name == "Ethane")
-                    {
-                        ethaneCopy = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
-                            new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject;
-
-                        //copy is inactive and not visible
-                        ethaneCopy.SetActive(false);
-                    }
+                    //copy is inactive and not visible
+                    ethaneCopy.SetActive(false);
                 }
             }
         }
-        else if(loadTwoMolecules && !CurrentMolecule.name.Equals(p_molecule))
-        {
-            LoadSecondMolecule(p_molecule);
-            moleculeList[1] = SecondMolecule;
-        }
+    }
 
-
-
-		/*GameObject resource = ( GameObject ) Resources.Load ( p_molecule );
-		CurrentMolecule = Instantiate ( resource, new Vector3 ( 0.0f, 1.0f, 0.0f ), Quaternion.identity );
-		CurrentMolecule.transform.localScale = new Vector3 ( 0.5f, 0.5f, 0.5f );
-
-		bool labels = LabelToggler ? LabelToggler.DrawLabels : true;
-		LabelToggler = CurrentMolecule.GetComponent<LabelToggler> ( );
-
-		LabelToggler.DrawLabels = labels;
-		ToggleLabels ( labels );
-
-		VRBezierDrive[] curve = CurrentMolecule.GetComponentsInChildren<VRBezierDrive> ( );
-		for ( int i = 0; i < curve.Length; i++ ) {
-			curve [ i ].TrackedObject = RightHand;
-			curve [ i ].TrackTransform = RightHandTransform;
-		}
-
-		SetMoleculeHeight ( LastHeight );
-		SetMoleculeRotation ( LastRotation );*/
-	}
-
-    public void LoadSecondMolecule(string p_molecule)
+    private void LoadSecondMolecule(string p_molecule)
     {
-        
-            //Goes through the molecules on the wall
-            foreach (Transform mol in MoleculeHolder.transform)
+
+        //Goes through the molecules on the wall
+        foreach (Transform mol in MoleculeHolder.transform)
+        {
+            //mol.gameObject.SetActive(false); //makes molecule inactive and invisible
+
+
+            if (mol.name == p_molecule)
             {
-                //mol.gameObject.SetActive(false); //makes molecule inactive and invisible
-                
-
-                if (mol.name == p_molecule)
-                {
-                //makes the molecule visable
-                //mol.gameObject.SetActive(true);
                 Destroy(SecondMolecule);
-                //SecondMolecule = mol.gameObject;
+                if (mol.name == "Cyclohexane")
+                {
+                    SecondMolecule = Instantiate(Resources.Load("Cyclohexane") as GameObject); //new Vector3(CurrentMolecule.transform.position.x + 3f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
+                                                                                     //new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject;
+                    SecondMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x - offset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+                    //SecondMolecule.transform.localScale = new Vector3(CurrentMolecule.transform.localScale.x, CurrentMolecule.transform.localScale.y, -1 * CurrentMolecule.transform.localScale.z);
 
-                SecondMolecule = Instantiate(mol.gameObject, new Vector3(CurrentMolecule.transform.position.x - 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
-                    CurrentMolecule.transform.rotation) as GameObject;
+                    VRBezierDrive[] curve = SecondMolecule.GetComponentsInChildren<VRBezierDrive>();
+                    for (int i = 0; i < curve.Length; i++)
+                    {
+                        curve[i].TrackedObject = TrackedObject;
+                        curve[i].TrackTransform = TrackedObject.transform;
+
+                    }
+                }
+                else
+                {
+                    //makes the molecule visable
+                    //mol.gameObject.SetActive(true);
+                   
+                    //SecondMolecule = mol.gameObject;
+
+                    SecondMolecule = Instantiate(mol.gameObject, new Vector3(CurrentMolecule.transform.position.x - offset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
+                        CurrentMolecule.transform.rotation) as GameObject;
                     SecondMolecule.SetActive(true);
                     SetMoleculeHeight(LastHeight);
                     SetMoleculeRotation(LastRotation);
@@ -181,16 +210,17 @@ public class VRUIController : MonoBehaviour {
                     //creating a copy of the Ethane molecule for resetting the EthaneWheelRotation movement
                     if (mol.name == "Ethane")
                     {
-                        ethaneCopy = Instantiate(SecondMolecule, new Vector3(CurrentMolecule.transform.position.x - 5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
+                        ethaneCopy = Instantiate(SecondMolecule, new Vector3(CurrentMolecule.transform.position.x - offset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
                             new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject;
 
                         //copy is inactive and not visible
                         ethaneCopy.SetActive(false);
                     }
-                    
                 }
+
             }
-        
+        }
+        moleculeList[1] = SecondMolecule;
     }
 
 
@@ -199,40 +229,74 @@ public class VRUIController : MonoBehaviour {
     /// based of the old height
     /// </summary>
     /// <param name="p_height">P height.</param>
-    public void SetMoleculeHeight ( float p_height ) {
-		CurrentMolecule.transform.position = new Vector3 ( 0.0f, Mathf.Lerp ( MinHeight, MaxHeight, p_height ), 0.0f );
-		LastHeight = p_height;
-	}
+    public void SetMoleculeHeight(float p_height)
+    {
+        CurrentMolecule.transform.position = new Vector3(0.0f, Mathf.Lerp(MinHeight, MaxHeight, p_height), 0.0f);
+        LastHeight = p_height;
+    }
 
+    public SteamVR_TrackedObject TrackedObject;
     public void createMirror()
     {
         if (!loadTwoMolecules)
         {
-            if (copy == null)
+
+            if (SecondMolecule == null && CurrentMolecule.name != "Cyclohexane")
             {
                 //if there is not a copy of CurrentMolecule already, creates a copy of it
-                copy = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x + 2.5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
-                new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 1)) as GameObject; //rotation of the object
+                SecondMolecule = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x + offset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
+                new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject; //rotation of the object
+                SecondMolecule.transform.localScale = new Vector3(SecondMolecule.transform.localScale.x, CurrentMolecule.transform.localScale.y, -1 * CurrentMolecule.transform.localScale.z);
+                //moleculeList[1] = copy;
             }
-            moleculeList[1] = copy;
+            else if (SecondMolecule == null)
+            {
+                // badBoolean = false;
+                //    copy = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x + 2.5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
+                //    new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject; //rotation of the object
+                //    copy.transform.localScale = new Vector3(copy.transform.localScale.x, CurrentMolecule.transform.localScale.y, -1 * CurrentMolecule.transform.localScale.z);
+
+                //    VRBezierDrive[] curve = molecule.GetComponentsInChildren<VRBezierDrive>();
+                //    for (int i = 0; i < curve.Length; i++)
+                //    {
+                //        curve[i].TrackedObject = TrackedObject;
+                //        curve[i].TrackTransform = TrackedObject.transform;
+
+                // CyclohexaneCopy = ;
+                SecondMolecule = Instantiate(Resources.Load("Cyclohexane") as GameObject); //new Vector3(CurrentMolecule.transform.position.x + 3f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
+                                                                                 //new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject;
+                SecondMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x + offset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+                SecondMolecule.transform.localScale = new Vector3(CurrentMolecule.transform.localScale.x, CurrentMolecule.transform.localScale.y, -1 * CurrentMolecule.transform.localScale.z);
+
+                VRBezierDrive[] curve = SecondMolecule.GetComponentsInChildren<VRBezierDrive>();
+                for (int i = 0; i < curve.Length; i++)
+                {
+                    curve[i].TrackedObject = TrackedObject;
+                    curve[i].TrackTransform = TrackedObject.transform;
+
+                }
+
+                //}
+            }
+            moleculeList[1] = SecondMolecule;
         }
 
     }
 
     public void Load2()
     {
-
         initalSwitch = true;
         switcher = true;
 
-
         if (loadTwoMolecules)
         {
+            
             loadTwoMolecules = false;
             destoySecondMolecule();
         }
         else
         {
+            
             destroyMirror();
             loadTwoMolecules = true;
         }
@@ -249,23 +313,23 @@ public class VRUIController : MonoBehaviour {
 
     public void destroyMirror()
     {
-        if (!loadTwoMolecules) {
-            Destroy(copy);
+        if (!loadTwoMolecules)
+        {
+            Destroy(SecondMolecule);
             destoySecondMolecule();
-          }
-    
+        }
+
     }
 
-    //Look at this
-    public void ResetOrientation ( ) {
+    public void ResetOrientation()
+    {
         Debug.Log("Reset Orientation Called");
         HeightHandler.SetDriveVale(0.0f);
         RotHandler.SetDriveVale(0.0f);
-		molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f); 
+        molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
 
         CurrentMolecule.transform.rotation = Quaternion.identity;
 
-        //////
         //Resets the Ethane to its original internal rotation, specific to the EthaneWheelRotation script
         if (CurrentMolecule.transform.name == "Ethane")
         {
@@ -277,93 +341,54 @@ public class VRUIController : MonoBehaviour {
             //instantiate a clone of the Ethane copy as the Current Molecule
             CurrentMolecule = Instantiate(ethaneCopy, new Vector3(ethaneCopy.transform.position.x, ethaneCopy.transform.position.y, ethaneCopy.transform.position.z),
                         new Quaternion(ethaneCopy.transform.position.x, ethaneCopy.transform.position.y, ethaneCopy.transform.position.z, 0)) as GameObject;
-            
 
             //rename the molecule to remove the (Clone) tag
             CurrentMolecule.transform.name = "Ethane";
             ethaneCopy.SetActive(false);
         }
-        Destroy(copy);
+        Destroy(SecondMolecule);
         destoySecondMolecule();
 
     }
 
-    
-	/// <summary>
-	/// Upadate the rotation of the molecule for the inital load
-	/// based on the old rotation
-	/// </summary>
-	/// <param name="p_rotation">P rotation.</param>
-	public void SetMoleculeRotation ( float p_rotation ) {
-        /* Vector3 rot = CurrentMolecule.transform.eulerAngles;
 
-         if (RotHandler != null)
-         {
-             RotHandler.SetDriveVale(Mathf.InverseLerp(0.0f, 360.0f, rot.y));
-         }
+    /// <summary>
+    /// Upadate the rotation of the molecule for the inital load
+    /// based on the old rotation
+    /// </summary>
+    /// <param name="p_rotation">P rotation.</param>
+    public void SetMoleculeRotation(float p_rotation)
+    {
 
-         CurrentMolecule.transform.eulerAngles = new Vector3 ( rot.x, Mathf.Lerp ( 0.0f, 360.0f, p_rotation ), rot.y );
-         */
-
-        CurrentMolecule.transform.rotation = Quaternion.AngleAxis(Mathf.Lerp ( 0.0f, 360.0f, p_rotation), Vector3.up);
+        CurrentMolecule.transform.rotation = Quaternion.AngleAxis(Mathf.Lerp(0.0f, 360.0f, p_rotation), Vector3.up);
 
         LastRotation = p_rotation;
-	}
+    }
 
-	public void ToggleLabels ( ) {
+    public void ToggleLabels()
+    {
         LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
-        LabelToggler.Toggle ( );
-	}
+        LabelToggler.Toggle();
+    }
 
-    public void switchMolecule(){
+    public void switchMolecule()
+    {
+        //GameObject whatever = VRButton.getButton();
+        //whatever.GetComponentInChildren<Text>().text = "Hello";
+
+        float switchOffset;
 
         if (loadTwoMolecules)
         {
-            if (!switcher)
-            {
-                CurrentMolecule = temp;
-                temp = moleculeList[1];
-                CurrentMolecule = moleculeList[0];
-
-                if (initalSwitch)
-                {
-                    moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x - 2.2f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
-                    switcher = true;
-                }
-                else
-                {
-                    moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
-                    switcher = true;
-                }
-                initalSwitch = false;
-
-
-            }
-            else if (switcher)
-            {
-
-                CurrentMolecule = temp;
-                temp = moleculeList[0];
-                CurrentMolecule = moleculeList[1];
-                if (initalSwitch)
-                {
-                    moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x - 2.2f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
-
-                }
-                else
-                {
-                    moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
-
-                }
-                initalSwitch = false;
-                switcher = false;
-
-
-            }
+            switchOffset = -3f;
         }
         else
         {
+            switchOffset = 3f;
+        }
 
+        if (moleculeList[1] != null)
+        {
             if (!switcher)
             {
                 CurrentMolecule = temp;
@@ -372,7 +397,7 @@ public class VRUIController : MonoBehaviour {
 
                 if (initalSwitch)
                 {
-                    moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x + 2.2f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+                    moleculeList[1].transform.position = new Vector3(CurrentMolecule.transform.position.x + switchOffset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
                     switcher = true;
                 }
                 else
@@ -392,7 +417,7 @@ public class VRUIController : MonoBehaviour {
                 CurrentMolecule = moleculeList[1];
                 if (initalSwitch)
                 {
-                    moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x + 2.2f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
+                    moleculeList[0].transform.position = new Vector3(CurrentMolecule.transform.position.x + switchOffset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
 
                 }
                 else
@@ -406,13 +431,7 @@ public class VRUIController : MonoBehaviour {
 
             }
 
-
-
         }
-
     }
-    //public void ToggleLabels ( bool p_toggle ) {
-	//	LabelToggler.Toggle ( p_toggle );
-	//}
 }
 
