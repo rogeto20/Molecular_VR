@@ -21,7 +21,6 @@ public class VRButton : MonoBehaviour {
 	public MeshRenderer Renderer;
 
 	public VRHapticPulse Pulse;
-	// private VRUIController Controller;
 
 	void Awake ( ) {
 		Image = Parent.GetComponent < UnityEngine.UI.Image > ( );
@@ -37,11 +36,6 @@ public class VRButton : MonoBehaviour {
         
 	}
 
-	/*
-	void Start ( ) {
-		Controller = GameObject.FindObjectOfType < VRUIController > ( );
-	}*/
-
 	/// <summary>
 	/// Do this when the controller starts to hover
 	/// </summary>
@@ -55,10 +49,6 @@ public class VRButton : MonoBehaviour {
         {
             Renderer.material.color = HighlightedColor;
         }
-
-        /*if ( Pulse ) {
-			Pulse.Pulse ( );
-		}*/
     }
 
 	/// <summary>
@@ -81,17 +71,7 @@ public class VRButton : MonoBehaviour {
 	/// </summary>
 	public void ButtonPressed ( ) {
 
-        //if (Image.GetComponent<Text>.Equals("Load2?"))
-        //{
-        //    Image.color = HighlightedColor;
-        //}
-
-
-   
-
-
 		ButtonClick.Invoke ( );
-        // Controller.SendMessage ( "ButtonPressed" );
 
         if (Pulse)
         {

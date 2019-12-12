@@ -42,8 +42,6 @@ public class VRFreeRotation : MonoBehaviour {
         }
 
         trackedobj = GetComponent<SteamVR_TrackedObject>();
-        // Debug.Log(trackedobj.index);
-        
     }
 
 	void Update () {
@@ -56,7 +54,7 @@ public class VRFreeRotation : MonoBehaviour {
         if (controller.GetPress(SteamVR_Controller.ButtonMask.Trigger))
         {
             molecule = VRUIController.CurrentMolecule;
-            //molecule.transform.eulerAngles = new Vector3(controllerRot[0], controllerRot[1], controllerRot[2]); //This speedds it up
+            //molecule.transform.eulerAngles = new Vector3(controllerRot[0], controllerRot[1], controllerRot[2]); //This speeds it up
             molecule.transform.rotation = Quaternion.Slerp ( molecule.transform.rotation, controller.transform.rot, Time.deltaTime * 3.0f );
         }
         
