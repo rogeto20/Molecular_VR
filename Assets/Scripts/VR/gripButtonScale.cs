@@ -4,6 +4,7 @@ using UnityEngine;
 
 // ===============================
 // AUTHOR: Joe Pernick
+// EDITED BY: Amanda Schifferle, Rome Ogeto, Matthew O'Donnell, Dominic Rayl
 // DATE: 24 September, 2018  
 // UPDATED: 31 October, 2018
 // PURPOSE: VRScaling on the right controller that allows the molecules to be scaled up 
@@ -11,8 +12,6 @@ using UnityEngine;
 
 public class gripButtonScale : MonoBehaviour
 {
-
-
     //create an instance of a tracked object
     public SteamVR_TrackedObject trackedobj;
 
@@ -35,21 +34,12 @@ public class gripButtonScale : MonoBehaviour
 
     void Start()
     {
-
         //if the molecule cannot be retrieved by setting it in the Unity Editor, look for it.
-        //if (molecule == null)
-        //{
-        //    molecule = GameObject.FindGameObjectWithTag("Mol");
-        //}
-
         trackedobj = GetComponent<SteamVR_TrackedObject>();
-        // Debug.Log(trackedobj.index);
-
     }
 
     void Update()
     {
-
         //Test to see if the grip button is pressed down on the right controller
         //10/31/2018 Makes it so the molecule cannot scale smaller than 10f and no larger than 100f
 

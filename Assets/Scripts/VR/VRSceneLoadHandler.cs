@@ -4,6 +4,15 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
+// ===============================
+// AUTHOR: Craig Milby
+// EDITED BY: Michelle Mismas and Joe Pernick
+// EDITED BY: Amanda Schifferle, Rome Ogeto, Matthew O'Donnell, Dominic Rayl
+// DATE: 25 October, 2017
+// PURPOSE: This class sets up the VRScene. It says what molecules will go on the wall initially,
+//          and, if you add your own, it will add those to the wall as well. Adds listeners to the
+//          buttons on the wall and chooses where the buttons will go on the wall.
+// ===============================
 public class VRSceneLoadHandler : MonoBehaviour {
 
 	public GameObject MoleculeButtonPrefab;
@@ -13,7 +22,7 @@ public class VRSceneLoadHandler : MonoBehaviour {
 
 	public VRUIController UIController;
 	public SteamVR_TrackedObject TrackedObject;
-
+ 
 	void Awake ( ) {
 		Dictionary<string, string> molecules = SceneManager.GetSceneParameters ( );
 
@@ -29,7 +38,6 @@ public class VRSceneLoadHandler : MonoBehaviour {
 				molecule = Resources.Load ( "Ethane" ) as GameObject;
 				molecule = Instantiate ( molecule, MoleculeHolder.transform );
 				molecule.name = mol.Value;
-
 			}
             else if ( mol.Value == "Cyclohexane" ) {
 				molecule = Resources.Load ( "Cyclohexane" ) as GameObject;

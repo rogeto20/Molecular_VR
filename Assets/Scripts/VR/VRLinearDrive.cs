@@ -72,6 +72,7 @@ public class VRLinearDrive : MonoBehaviour {
 		}
 	}
 
+    //called every frame
 	void Update ( ) {
 		HandHoverUpdate ( );
 
