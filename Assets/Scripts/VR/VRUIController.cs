@@ -6,52 +6,26 @@ using UnityEngine.UI;
 // ===============================
 // AUTHOR: Craig Milby
 // EDITED BY: Michelle Mismas and Joe Pernick
-// DATE: 25 October, 2017
+// EDITED BY: Amanda Schifferle, Dominic Rayl, Matthew O'Donnell and Rome Ogeto
+// DATE: 25 December, 2019
 // PURPOSE: This handles the menu for selecting molecules in the VR world. It loads
 //			new molecules as well as updating them to the correct height and rotation
 //			when loaded. Includes functionality for creating a mirror of the molecule
 //          and resets the inner rotation of the Ethane molecule.
 // ===============================
 
-
-/// <summary>
-/// Rename this class
-/// </summary>
-
-
 public class VRUIController : MonoBehaviour
 {
+    public static GameObject CurrentMolecule; // Main object being interacted with
+    private GameObject SecondMolecule; //The second molecule loaded either by creating a mirror or loading a second molecule
+    private GameObject ethaneCopy; //This molecule is used to orient the labels for the Ethan molecule
+    private GameObject temp;//Objet used when switching molecules
 
-    //WARNING:next nine commented out variables are old stuff, might not need.
-    //public SteamVR_TrackedObject LeftHand;
-    //public Transform LeftHandTransform;
-    //public SteamVR_TrackedObject RightHand;
-    //public Transform RightHandTransform;
-    //private UnityEngine.UI.Image Image;
-    //public Color NormalColor;
-    //public Color PressedColor;
-    //public MeshRenderer Renderer;
-    //private Boolean mainObj = true;
+    public float offset = 3f;//Distance by which molecules are seperated from the current molecule
 
-    //WARNING: Old Method
-    //public void ToggleLabels ( bool p_toggle ) {
-    //	LabelToggler.Toggle ( p_toggle );
-    //}
+    private LabelToggler LabelToggler; //Toggles the labels
 
-
-
-    //These can change to the variable
-    public static GameObject CurrentMolecule;
-    private GameObject SecondMolecule; //The one that is not a copy hehe
-    //private GameObject CyclohexaneCopy;
-    private GameObject ethaneCopy;
-    private GameObject temp;
-
-    public float offset = 3f;
-
-    private LabelToggler LabelToggler;
-
-    private GameObject[] moleculeList = new GameObject[2];
+    private GameObject[] moleculeList = new GameObject[2]; //List that holds the two molecules to facilitate switching
 
     public GameObject molecule;
     Boolean switcher = true;
@@ -65,15 +39,20 @@ public class VRUIController : MonoBehaviour
 
     private float LastHeight = 0.0f;
     private float LastRotation = 0.0f;
+    public SteamVR_TrackedObject TrackedObject;
 
     public VRMolHeightHandler HeightHandler;
     public VRMolRotationHandler RotHandler;
 
+    
     void Awake()
     {
 
     }
 
+    /// <summary>
+    /// Loads the default molecule and sets object 'molecule' to the Methane object
+    /// </summary>
     void Start()
     {
         LoadMolecule("Methane");
@@ -81,6 +60,10 @@ public class VRUIController : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Handles selection of a new molecule by removing the current molecule and spawning the selected molecule.
+    /// </summary>
+    /// <param name="p_molecule">the name of the molecule being handled</param>
     public void HandleMoleculeSelectionClick(string p_molecule)
     {
         Destroy(CurrentMolecule);
@@ -89,9 +72,9 @@ public class VRUIController : MonoBehaviour
 
     /// <summary>
     /// Load molecule from the provided name
-    /// This is called when a button is pressed
+    /// This is called when a molecule button in the scene is pressed
     /// </summary>
-    /// <param name="p_molecule">P molecule.</param>
+    /// <param name="p_molecule">the name of the molecule being handled</param>
     public void LoadMolecule(string p_molecule)
     {
 
@@ -107,27 +90,13 @@ public class VRUIController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Load molecule from the provided name. This is called when a molecule is selected.
+    /// </summary>
+    /// <param name="p_molecule">the name of the molecule being handled</param>
     private void LoadOneMolecule(string p_molecule)
     {
-        //GameObject foundMol = GameObject.Find(p_molecule);
-        //foundMol.SetActive(true);
-
-        //CurrentMolecule = foundMol;
-        //SetMoleculeHeight(LastHeight);
-        //SetMoleculeRotation(LastRotation);
-
-
-        //moleculeList[0] = foundMol;
-
-        //LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
-        //if (foundMol.name == "Ethane")
-        //{
-        //    ethaneCopy = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
-        //        new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject;
-
-        //    //copy is inactive and not visible
-        //    ethaneCopy.SetActive(false);
-        //}
+       
         foreach (Transform mol in MoleculeHolder.transform)
         {
 
@@ -163,6 +132,12 @@ public class VRUIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loads a second molecule from the provided name. This is called when a molecule is selected
+    /// and the LoadSecondMolecule is true. The molecule loaded cannot be interacted with when
+    /// first initialized into the program. And the second molecule is offset by -2.5 on the x-axis
+    /// </summary>
+    /// <param name="p_molecule">the name of the molecule being handled</param>
     private void LoadSecondMolecule(string p_molecule)
     {
 
@@ -228,14 +203,17 @@ public class VRUIController : MonoBehaviour
     /// Update the height of the molecule for the initial load
     /// based of the old height
     /// </summary>
-    /// <param name="p_height">P height.</param>
+    /// <param name="p_height">the height of the molecule being handled</param>
     public void SetMoleculeHeight(float p_height)
     {
         CurrentMolecule.transform.position = new Vector3(0.0f, Mathf.Lerp(MinHeight, MaxHeight, p_height), 0.0f);
         LastHeight = p_height;
     }
 
-    public SteamVR_TrackedObject TrackedObject;
+
+    /// <summary>
+    /// Creates a mirrored copy of the current molecule offset by 2.5 on the x-axis.
+    /// </summary>
     public void createMirror()
     {
         if (!loadTwoMolecules)
@@ -283,6 +261,10 @@ public class VRUIController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Changes the initial switcher and switcher to true
+    /// Toggles the LoadTwoMolecules boolean between true and false
+    /// </summary>
     public void Load2()
     {
         initalSwitch = true;
@@ -302,6 +284,10 @@ public class VRUIController : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Removes the second loaded molecule from the game space—if it exists
+    /// </summary>
     public void destoySecondMolecule()
     {
         Destroy(SecondMolecule);
@@ -311,6 +297,9 @@ public class VRUIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void destroyMirror()
     {
         if (!loadTwoMolecules)
@@ -321,6 +310,9 @@ public class VRUIController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Resets the orientation of the molecule to its original settings. Affects EthaneWheelRotaion.cs.
+    /// </summary>
     public void ResetOrientation()
     {
         Debug.Log("Reset Orientation Called");
@@ -365,12 +357,18 @@ public class VRUIController : MonoBehaviour
         LastRotation = p_rotation;
     }
 
+    /// <summary>
+    /// Use the LabelToggler to toggle the labels on the current molecule
+    /// </summary>
     public void ToggleLabels()
     {
         LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
         LabelToggler.Toggle();
     }
 
+    /// <summary>
+    /// Switches which molecule on the screen is currently being manipulated.  
+    /// </summary>
     public void switchMolecule()
     {
         //GameObject whatever = VRButton.getButton();
