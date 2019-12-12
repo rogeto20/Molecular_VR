@@ -44,7 +44,6 @@ public class VRUIController : MonoBehaviour
     public VRMolHeightHandler HeightHandler;
     public VRMolRotationHandler RotHandler;
 
-    
     void Awake()
     {
 
@@ -59,7 +58,8 @@ public class VRUIController : MonoBehaviour
         molecule = GameObject.FindGameObjectWithTag("Mol");
     }
 
-
+    ///This Region handles all the loading up of a molecule
+    #region
     /// <summary>
     /// Handles selection of a new molecule by removing the current molecule and spawning the selected molecule.
     /// </summary>
@@ -198,6 +198,28 @@ public class VRUIController : MonoBehaviour
         moleculeList[1] = SecondMolecule;
     }
 
+    /// <summary>
+    /// Changes the initial switcher and switcher to true
+    /// Toggles the LoadTwoMolecules boolean between true and false
+    /// </summary>
+    public void Load2()
+    {
+        initalSwitch = true;
+        switcher = true;
+
+        if (loadTwoMolecules)
+        {
+
+            loadTwoMolecules = false;
+            destoySecondMolecule();
+        }
+        else
+        {
+
+            destoySecondMolecule();
+            loadTwoMolecules = true;
+        }
+    }
 
     /// <summary>
     /// Update the height of the molecule for the initial load
@@ -209,8 +231,10 @@ public class VRUIController : MonoBehaviour
         CurrentMolecule.transform.position = new Vector3(0.0f, Mathf.Lerp(MinHeight, MaxHeight, p_height), 0.0f);
         LastHeight = p_height;
     }
+    #endregion
 
-
+    ///This region handles all the mirror functionality
+    #region
     /// <summary>
     /// Creates a mirrored copy of the current molecule offset by 2.5 on the x-axis.
     /// </summary>
@@ -262,30 +286,6 @@ public class VRUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// Changes the initial switcher and switcher to true
-    /// Toggles the LoadTwoMolecules boolean between true and false
-    /// </summary>
-    public void Load2()
-    {
-        initalSwitch = true;
-        switcher = true;
-
-        if (loadTwoMolecules)
-        {
-            
-            loadTwoMolecules = false;
-            destoySecondMolecule();
-        }
-        else
-        {
-
-            destoySecondMolecule();
-            loadTwoMolecules = true;
-        }
-    }
-
-
-    /// <summary>
     /// Removes the second loaded molecule from the game space—if it exists
     /// </summary>
     public void destoySecondMolecule()
@@ -295,62 +295,6 @@ public class VRUIController : MonoBehaviour
         {
             CurrentMolecule = moleculeList[0];
         }
-    }
-
-    /// <summary>
-    /// Resets the orientation of the molecule to its original settings. Affects EthaneWheelRotaion.cs.
-    /// </summary>
-    public void ResetOrientation()
-    {
-        Debug.Log("Reset Orientation Called");
-        HeightHandler.SetDriveVale(0.0f);
-        RotHandler.SetDriveVale(0.0f);
-        molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
-
-        CurrentMolecule.transform.rotation = Quaternion.identity;
-
-        //Resets the Ethane to its original internal rotation, specific to the EthaneWheelRotation script
-        if (CurrentMolecule.transform.name == "Ethane")
-        {
-            //activate the Ethane copy
-            ethaneCopy.SetActive(true);
-            //destroy the current Ethane molecule
-            Destroy(CurrentMolecule);
-
-            //instantiate a clone of the Ethane copy as the Current Molecule
-            CurrentMolecule = Instantiate(ethaneCopy, new Vector3(ethaneCopy.transform.position.x, ethaneCopy.transform.position.y, ethaneCopy.transform.position.z),
-                        new Quaternion(ethaneCopy.transform.position.x, ethaneCopy.transform.position.y, ethaneCopy.transform.position.z, 0)) as GameObject;
-
-            //rename the molecule to remove the (Clone) tag
-            CurrentMolecule.transform.name = "Ethane";
-            ethaneCopy.SetActive(false);
-        }
-        Destroy(SecondMolecule);
-        destoySecondMolecule();
-
-    }
-
-
-    /// <summary>
-    /// Upadate the rotation of the molecule for the inital load
-    /// based on the old rotation
-    /// </summary>
-    /// <param name="p_rotation">P rotation.</param>
-    public void SetMoleculeRotation(float p_rotation)
-    {
-
-        CurrentMolecule.transform.rotation = Quaternion.AngleAxis(Mathf.Lerp(0.0f, 360.0f, p_rotation), Vector3.up);
-
-        LastRotation = p_rotation;
-    }
-
-    /// <summary>
-    /// Use the LabelToggler to toggle the labels on the current molecule
-    /// </summary>
-    public void ToggleLabels()
-    {
-        LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
-        LabelToggler.Toggle();
     }
 
     /// <summary>
@@ -418,5 +362,66 @@ public class VRUIController : MonoBehaviour
 
         }
     }
+
+    #endregion
+
+    ///This region has extra stuff used in making the project functional
+    #region
+    /// <summary>
+    /// Resets the orientation of the molecule to its original settings. Affects EthaneWheelRotaion.cs.
+    /// </summary>
+    public void ResetOrientation()
+    {
+        Debug.Log("Reset Orientation Called");
+        HeightHandler.SetDriveVale(0.0f);
+        RotHandler.SetDriveVale(0.0f);
+        molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+
+        CurrentMolecule.transform.rotation = Quaternion.identity;
+
+        //Resets the Ethane to its original internal rotation, specific to the EthaneWheelRotation script
+        if (CurrentMolecule.transform.name == "Ethane")
+        {
+            //activate the Ethane copy
+            ethaneCopy.SetActive(true);
+            //destroy the current Ethane molecule
+            Destroy(CurrentMolecule);
+
+            //instantiate a clone of the Ethane copy as the Current Molecule
+            CurrentMolecule = Instantiate(ethaneCopy, new Vector3(ethaneCopy.transform.position.x, ethaneCopy.transform.position.y, ethaneCopy.transform.position.z),
+                        new Quaternion(ethaneCopy.transform.position.x, ethaneCopy.transform.position.y, ethaneCopy.transform.position.z, 0)) as GameObject;
+
+            //rename the molecule to remove the (Clone) tag
+            CurrentMolecule.transform.name = "Ethane";
+            ethaneCopy.SetActive(false);
+        }
+        Destroy(SecondMolecule);
+        destoySecondMolecule();
+
+    }
+
+
+    /// <summary>
+    /// Upadate the rotation of the molecule for the inital load
+    /// based on the old rotation
+    /// </summary>
+    /// <param name="p_rotation">P rotation.</param>
+    public void SetMoleculeRotation(float p_rotation)
+    {
+
+        CurrentMolecule.transform.rotation = Quaternion.AngleAxis(Mathf.Lerp(0.0f, 360.0f, p_rotation), Vector3.up);
+
+        LastRotation = p_rotation;
+    }
+
+    /// <summary>
+    /// Use the LabelToggler to toggle the labels on the current molecule
+    /// </summary>
+    public void ToggleLabels()
+    {
+        LabelToggler = CurrentMolecule.GetComponent<LabelToggler>();
+        LabelToggler.Toggle();
+    }
+    #endregion
 }
 
