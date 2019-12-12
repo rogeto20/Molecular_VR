@@ -278,8 +278,8 @@ public class VRUIController : MonoBehaviour
         }
         else
         {
-            
-            destroyMirror();
+
+            destoySecondMolecule();
             loadTwoMolecules = true;
         }
     }
@@ -295,19 +295,6 @@ public class VRUIController : MonoBehaviour
         {
             CurrentMolecule = moleculeList[0];
         }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public void destroyMirror()
-    {
-        if (!loadTwoMolecules)
-        {
-            Destroy(SecondMolecule);
-            destoySecondMolecule();
-        }
-
     }
 
     /// <summary>
