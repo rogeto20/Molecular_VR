@@ -298,7 +298,7 @@ public class VRUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// Switches which molecule on the screen is currently being manipulated.  
+    /// Switches which molecule on the screen is currently being manipulated.
     /// </summary>
     public void switchMolecule()
     {

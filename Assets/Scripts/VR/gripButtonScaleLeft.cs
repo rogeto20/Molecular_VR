@@ -50,10 +50,16 @@ public class gripButtonScaleLeft : MonoBehaviour
         if (controller.GetPress(SteamVR_Controller.ButtonMask.Grip))
         {
             molecule = VRUIController.CurrentMolecule;
-            if (molecule.transform.localScale.x > 0.25f)
+            if (molecule.transform.localScale.x > 0.25f && molecule.transform.localScale.z > 0)
             {
                 //IF the right grip button is pressed scale the molecule up by half of its current x, y and z positions 
                 molecule.transform.localScale += new Vector3(-0.02f, -0.02f, -0.02f);
+                gripButtonPushed = true;
+            }
+            else if(molecule.transform.localScale.x > 0.25f && molecule.transform.localScale.z < 0)
+            {
+                //IF the right grip button is pressed scale the molecule up by half of its current x, y and z positions 
+                molecule.transform.localScale += new Vector3(-0.02f, -0.02f, 0.02f);
                 gripButtonPushed = true;
             }
         }
