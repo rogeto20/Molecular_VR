@@ -197,7 +197,7 @@
     <None Include="Assets\SteamVR\readme.txt" />
     <None Include="Assets\SteamVR\Resources\SteamVR_ColorOut.shader" />
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/modonnell20/source/repos/Molecular_VR/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/rogeto20/source/repos/Molecular_VR/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -398,7 +398,7 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.14f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="TextMeshPro-1.0.55.2017.1.0b12">
-      <HintPath>C:/Users/modonnell20/source/repos/Molecular_VR/Assets/TextMesh Pro/Plugins/TextMeshPro-1.0.55.2017.1.0b12.dll</HintPath>
+      <HintPath>C:/Users/rogeto20/source/repos/Molecular_VR/Assets/TextMesh Pro/Plugins/TextMeshPro-1.0.55.2017.1.0b12.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>

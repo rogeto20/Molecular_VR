@@ -373,9 +373,11 @@ public class VRUIController : MonoBehaviour
     public void ResetOrientation()
     {
         Debug.Log("Reset Orientation Called");
+
         HeightHandler.SetDriveVale(0.0f);
         RotHandler.SetDriveVale(0.0f);
         molecule.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+        destoySecondMolecule();
 
         CurrentMolecule.transform.rotation = Quaternion.identity;
 
@@ -395,8 +397,7 @@ public class VRUIController : MonoBehaviour
             CurrentMolecule.transform.name = "Ethane";
             ethaneCopy.SetActive(false);
         }
-        Destroy(SecondMolecule);
-        destoySecondMolecule();
+        
 
     }
 
