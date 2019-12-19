@@ -28,9 +28,9 @@ public class VRUIController : MonoBehaviour
     private GameObject[] moleculeList = new GameObject[2]; //List that holds the two molecules to facilitate switching
 
     public GameObject molecule;
-    Boolean switcher = true;
-    Boolean initalSwitch = true;
-    public static Boolean loadTwoMolecules = false;
+    Boolean switcher = true; //Boolean that determines if moleculeList[0] or moleculeList[1] is being switched to current 
+    Boolean initalSwitch = true; //does the inital offset of the molecule
+    public static Boolean loadTwoMolecules = false; //Boolean that tells if a user wants a second molecule to be loaded up
 
     public GameObject MoleculeHolder;
 
@@ -101,10 +101,7 @@ public class VRUIController : MonoBehaviour
         {
 
             mol.gameObject.SetActive(false);
-            //CurrentMolecule.gameObject.SetActive(false);
-
-            //James mentinoed this 
-            // mol.gameObject.SetActiveRecursively
+    
 
             if (mol.name == p_molecule)
             {
@@ -144,18 +141,15 @@ public class VRUIController : MonoBehaviour
         //Goes through the molecules on the wall
         foreach (Transform mol in MoleculeHolder.transform)
         {
-            //mol.gameObject.SetActive(false); //makes molecule inactive and invisible
-
-
+            
             if (mol.name == p_molecule)
             {
                 Destroy(SecondMolecule);
                 if (mol.name == "Cyclohexane")
                 {
-                    SecondMolecule = Instantiate(Resources.Load("Cyclohexane") as GameObject); //new Vector3(CurrentMolecule.transform.position.x + 3f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
-                                                                                     //new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject;
+                    SecondMolecule = Instantiate(Resources.Load("Cyclohexane") as GameObject); 
                     SecondMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x - offset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
-                    //SecondMolecule.transform.localScale = new Vector3(CurrentMolecule.transform.localScale.x, CurrentMolecule.transform.localScale.y, -1 * CurrentMolecule.transform.localScale.z);
+                    
 
                     VRBezierDrive[] curve = SecondMolecule.GetComponentsInChildren<VRBezierDrive>();
                     for (int i = 0; i < curve.Length; i++)
@@ -168,10 +162,6 @@ public class VRUIController : MonoBehaviour
                 else
                 {
                     //makes the molecule visable
-                    //mol.gameObject.SetActive(true);
-                   
-                    //SecondMolecule = mol.gameObject;
-
                     SecondMolecule = Instantiate(mol.gameObject, new Vector3(CurrentMolecule.transform.position.x - offset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
                         CurrentMolecule.transform.rotation) as GameObject;
                     SecondMolecule.SetActive(true);
@@ -249,24 +239,12 @@ public class VRUIController : MonoBehaviour
                 SecondMolecule = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x + offset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
                 new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject; //rotation of the object
                 SecondMolecule.transform.localScale = new Vector3(SecondMolecule.transform.localScale.x, CurrentMolecule.transform.localScale.y, -1 * CurrentMolecule.transform.localScale.z);
-                //moleculeList[1] = copy;
+               
             }
             else if (SecondMolecule == null)
             {
-                // badBoolean = false;
-                //    copy = Instantiate(CurrentMolecule, new Vector3(CurrentMolecule.transform.position.x + 2.5f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
-                //    new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject; //rotation of the object
-                //    copy.transform.localScale = new Vector3(copy.transform.localScale.x, CurrentMolecule.transform.localScale.y, -1 * CurrentMolecule.transform.localScale.z);
-
-                //    VRBezierDrive[] curve = molecule.GetComponentsInChildren<VRBezierDrive>();
-                //    for (int i = 0; i < curve.Length; i++)
-                //    {
-                //        curve[i].TrackedObject = TrackedObject;
-                //        curve[i].TrackTransform = TrackedObject.transform;
-
-                // CyclohexaneCopy = ;
-                SecondMolecule = Instantiate(Resources.Load("Cyclohexane") as GameObject); //new Vector3(CurrentMolecule.transform.position.x + 3f, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z),
-                                                                                 //new Quaternion(CurrentMolecule.transform.position.x, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z, 0)) as GameObject;
+               
+                SecondMolecule = Instantiate(Resources.Load("Cyclohexane") as GameObject); 
                 SecondMolecule.transform.position = new Vector3(CurrentMolecule.transform.position.x + offset, CurrentMolecule.transform.position.y, CurrentMolecule.transform.position.z);
                 SecondMolecule.transform.localScale = new Vector3(CurrentMolecule.transform.localScale.x, CurrentMolecule.transform.localScale.y, -1 * CurrentMolecule.transform.localScale.z);
 
